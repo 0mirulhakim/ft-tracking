@@ -41,7 +41,6 @@
                             <p>Permohonan </p>
                         </a>
                     </li>
-                   
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ url('sejarah') }}">
                             <i class="nc-icon nc-icon nc-notes"></i>
@@ -55,13 +54,13 @@
                             <p>Laporan </p>
                         </a>
                     </li>
+          
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ url('info') }}">
                             <i class="nc-icon nc-icon nc-notes"></i>
                             <p>Kemaskini Info</p>
                         </a>
-                    </li>
-                   
+                    </li>  
                 </ul>
             </div>
         </div>
@@ -85,7 +84,7 @@
                             
                         
                             <li class="nav-item">
-                            <a class="navbar-brand" href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
+                                <a class="navbar-brand" href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
                                 <a class="nav-link" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -104,7 +103,103 @@
             <div class="content">
                 <div class="container-fluid">
                 <main class="py-4">
-            @yield('content')
+                <head>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!-- Bootstrap core JavaScript-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Page level plugin JavaScript--><script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+</head>
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: gray;
+  color: black;
+}
+
+
+</style>
+@if(session('success'))
+    <div class="alert alert-success">
+        {{session('success')}}
+    </div>
+@endif
+
+  @if(count($errors) > 0)
+    @foreach($errors->all() as $error)
+        <div class="alert alert-danger">
+            {{$error}}
+        </div>
+    @endforeach
+@endif
+<div class="row">
+    <div class="col-lg-12">
+         <h4>Sejarah Delete</h4>
+         <a href="{{ route('sejarah') }}"class="btn btn-secondary float-right" style="margin-right: 100px">Transaksi Status</a>
+    
+       </div>
+</div>
+   <br>
+    <div class="">
+  <div class="card-deck">
+    <div class="card bg-light">
+    <div class="card-body text-left">
+    
+    <table class="pure-table" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+            <th>Bil.</th>
+            <th>No. Fail</th>
+            <th>Transaksi</th>
+            <th>Dikemaskini oleh</th>
+            <th>Tarikh</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+        @foreach($data as $permohonans=> $permohonan)
+              <tr>
+                
+              <td>{{$permohonans +1}}.</td>
+            <td>{{$permohonan->no_fail}}</td>
+            <td><?php if( $permohonan->status == 10 ){
+                                     echo "Delete";}?></td>
+            <td>{{$permohonan->nama_staff}}</td>
+            <td>{{$permohonan->tarikh}}</td>
+                </tr> 
+            @endforeach
+        </tbody>
+    </table>
+ </div> 
+ 
+<br><br>
+    </body>
+</html>
+<script>
+    $(document).ready(function() {
+          $('#dataTable').DataTable();
+    });
+</script>
+
+</div></div></div></div>
+
         </main>
                  
                     <div class="section">
@@ -128,77 +223,12 @@
         </div>
         
     </div>
-   <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-        <a href="#" data-toggle="dropdown">
-            <i class="fa fa-cog fa-2x"> </i>
-        </a>
-
-        <ul class="dropdown-menu">
-			<li class="header-title"> Sidebar Style</li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger">
-                    <p>Background Image</p>
-                    <label class="switch">
-                        <input type="checkbox" data-toggle="switch" checked="" data-on-color="primary" data-off-color="primary"><span class="toggle"></span>
-                    </label>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger background-color">
-                    <p>Filters</p>
-                    <div class="pull-right">
-                        <span class="badge filter badge-black" data-color="black"></span>
-                        <span class="badge filter badge-azure" data-color="azure"></span>
-                        <span class="badge filter badge-green" data-color="green"></span>
-                        <span class="badge filter badge-orange" data-color="orange"></span>
-                        <span class="badge filter badge-red" data-color="red"></span>
-                        <span class="badge filter badge-purple active" data-color="purple"></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-            <li class="header-title">Sidebar Images</li>
-
-            <li class="active">
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-1.jpg')}}" alt="" />
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-3.jpg')}}" alt="" />
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-4.jpg')}}" alt="" />
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-5.jpg')}}" alt="" />
-                </a>
-            </li>
-
-            
-
-           
-
-
-            
-
-            
-        </ul>
     </div>
 </div>
  
 </body>
 <!--   Core JS Files   -->
-<script src="{{asset('tim/assets/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('tim/assets/js/core/popper.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('tim/assets/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
+
 <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
 <script src="{{asset('tim/assets/js/plugins/bootstrap-switch.js')}}"></script>
 <!--  Google Maps Plugin    -->

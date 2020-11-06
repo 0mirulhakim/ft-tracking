@@ -1,15 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<br>
+
+<br><br>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">{{ __('Register Staff') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                {!! Form::open(['action' => 'RegisterstaffController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         @csrf
 
                         <div class="form-group row">
@@ -67,9 +68,10 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
+                                
                             </div>
                         </div>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

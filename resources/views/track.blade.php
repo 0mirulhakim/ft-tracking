@@ -133,19 +133,7 @@ th {
   color: black;
 }
 
-.btn1 {
-  background-color: #b3d9ff;
-  color: black;
-  padding: 5px 10px;
-  text-align: center;
-  font-size: 13px;
-  transition: 0.3s;
-}
 
-.btn1:hover {
-    background-color: #0080ff;
-  color: black;
-}
 </style>
 @if(session('success'))
     <div class="alert alert-success">
@@ -163,118 +151,46 @@ th {
 <div class="row">
     <div class="col-lg-12">
          <h4>Senarai Permohonan</h4>
-     </div>
-</div>
-<div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                    <form action="{{URL::to('/tahun')}}" method="POST" role="search">
-    {{ csrf_field() }}
-      
-      
-                        <select name="q" id="q" class="form-control" required>
-                            <option value="">Pilih Tahun</option>
-                            <option value="{{ date('Y') }}">{{ date('Y') }}</option>
-                            <option value="{{ date('Y')-1 }}">{{ date('Y')-1 }}</option>
-                            <option value="{{ date('Y')-2 }}">{{ date('Y')-2 }}</option>
-                            <option value="{{ date('Y')-3 }}">{{ date('Y')-3 }}</option>
-                            <option value="{{ date('Y')-4 }}">{{ date('Y')-4 }}</option>
-                            <option value="{{ date('Y')-5 }}">{{ date('Y')-5 }}</option>
-                            <option value="{{ date('Y')-6 }}">{{ date('Y')-6 }}</option>
-                        </select>
-                    </div>
-                    
-                    
-                    <div class="form-group" align="center">
-                        <button type="submit"  class="btn btn-info">Filter</button>
-
-                        <button type="reset" name="reset" id="reset" class="btn btn-default">Reset</button>
-                        </form>
-                    </div>
-                </div>
-   <br>
-    <div class="col-lg-12">
         <a href="{{ route('permohonans') }}"class="btn btn-secondary float-right" style="margin-right: 100px"><i class="nc-icon nc-icon nc-simple-add"></i>  Permohonan</a>
-    
+    </div>
 </div>
-<br><br><br>
-    <div class="">
+   <br>
+    <div class="container">
   <div class="card-deck">
     <div class="card bg-light">
     <div class="card-body text-left">
-    
+    @if(isset($details))
     <table class="pure-table" id="dataTable" width="100%" cellspacing="0">
         <thead>
             <tr>
-            <th>Bil.</th>
-            <th>No. Fail</th>
-            <th>No. Rujukan</th>
-            <th>Nama Pemohon/ Kemaskini Data</th>
-            <th>No. PA</th>
-            <th>No. Lot/Mukim</th>
-            <th>Hakmilik No.Baru</th>
-            <th>Status</th>
-            <th>Tarikh</th>
-            <th>Track</th>
-            <th>Update Status</th>
-            <th>Delete</th>
+            <th>Bil</th>
+                <th>Tarikh</th>
+                <th>Status</th>
+                <th>Nama Staff</th>
+                <th>Catatan</th>
                 
 
             </tr>
         </thead>
         <tbody>
-        @foreach($data as $permohonans=> $permohonan)
+        @foreach($details as $permohonan1=> $permohonan)
               <tr style='font-family:"Courier New", Courier, monospace; font-size:80%'>
                 
-              <td>{{$permohonans +1}}.</td>
-            <td>{{$permohonan->no_fail}}</td>
-            <td>{{$permohonan->no_rujukan}}</td>
-            <td><a href="{{route('permohonanedit.edit', $permohonan->id)}}" class="btn1" >{{$permohonan->nama}}</a></td>
-            <td>{{$permohonan->no_pa}}</td>
-            <td>{{$permohonan->no_lot}}<br> {{$permohonan->nama_mukim}}</td>
-            <td style="color:red">{{$permohonan->no_baru}}</td>
-            <td>{{$permohonan->status_nama}}</td> 
-            <td>{{$permohonan->tarikh}}</td>   
-            <td> <center><a href="{{route('baru.show', $permohonan->id)}}" class="btn btn-primary" ><i class="nc-icon nc-icon nc-single-copy-04"></i></a> </center></td>  
-            <td> <center><a href="{{route('baru.edit', $permohonan->id)}}" class="btn btn-success" ><i class="nc-icon nc-icon nc-ruler-pencil"></i></a></center></td>  
-            <form method="post" class="delete_form" action="{{action('PermohonanEditController@destroy', $permohonan->id)}}">
-         {{csrf_field()}}  
-          <td><center><input type="hidden" name="_method" value="DELETE" />
-          <input type="hidden" id="nama_staff" name="nama_staff" value="{{ Auth::user()->name }}">
-          <input type="hidden" id="tarikh" name="tarikh" value="{{ date('Y-m-d') }}">
-          <input type="hidden" id="status" name="status" value="10">
-          <input type="hidden" id="no_fail" name="no_fail" value="{{$permohonan->no_fail}}">
-          <button type="submit" class="btn btn-danger"><i class="nc-icon nc-icon nc-simple-remove"></i></button></center> </td> </form> 
-           <!-- <td> <center> <form action="{{URL::to('/tracking')}}" method="POST" role="search">
-    {{ csrf_field() }}
-      <button class="btn btn-primary btn-xl js-scroll-trigger" type="submit" value="{{ $permohonan->id }}"><i class="nc-icon nc-icon nc-single-copy-04"></i></button>
-      
-      </form> </center></td>      -->    
-           
+              <td>{{ $permohonan1 +1 }}.</td>  
+                    <td>{{$permohonan->tarikh}}</td>
+                <td>{{$permohonan->status_nama}}</td>
+                <td>{{$permohonan->nama_staff}}</td>
+                <td>{!! nl2br(e($permohonan->catatan)) !!}</td>           
+                
                 </tr> 
-            @endforeach
+                @endforeach
         </tbody>
     </table>
+    @endif
  </div> 
- 
 <br><br>
     </body>
 </html>
-<script>
-$(document).ready(function(){
- $('.delete_form').on('submit', function(){
-  if(confirm("Are you sure you want to delete it?"))
-  {
-   return true;
-  }
-  else
-  {
-   return false;
-  }
- });
-});
-</script>
 <script>
     $(document).ready(function() {
           $('#dataTable').DataTable();

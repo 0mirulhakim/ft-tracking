@@ -41,7 +41,7 @@ class LaporanController extends Controller
            $data = DB::table('permohonan_baru')
              //->orderBy('CustomerID', 'desc')
            //  ->get();
-             ->join('status', 'status.id', '=', 'permohonan_baru.id')
+             ->join('status', 'status.id', '=', 'permohonan_baru.status_id')
     //->join('mukim', 'mukim.id', '=', 'permohonan_baru.mukim_id')
     ->select('status.status_nama','permohonan_baru.*')
     ->get();

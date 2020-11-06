@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use App\Permohonan;
 use App\Status_permohonan;
+use App\Transaksi;
+
 use Illuminate\Http\Request;
 use DB;
-class PermohonanController extends Controller
+class PermohonanEditController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +16,9 @@ class PermohonanController extends Controller
      */
     public function index()
     {
-        $data = DB::table('transaksi')
-        
-        ->select('*')
-        ->get();
-         return view('delete', compact('data'));
+        //
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -39,29 +37,28 @@ class PermohonanController extends Controller
      */
     public function store(Request $request)
     {
+        
+
         $permohonan=new Permohonan;
+        $permohonan=Permohonan::find($request->input('permohonan_id'));
         $permohonan->no_fail=$request->input('no_fail');
-        $permohonan->tarikh=$request->input('tarikh');
         $permohonan->no_rujukan=$request->input('no_rujukan');
         $permohonan->nama=$request->input('nama');
         $permohonan->no_pa=$request->input('no_pa');
         $permohonan->no_lot=$request->input('no_lot'); 
         $permohonan->mukim_id=$request->input('mukim_id');
-        $permohonan->catatan=$request->input('catatan');
+        $permohonan->tarikh=$request->input('tarikh');
         $permohonan->status_id=$request->input('status_id');
-       
+        $permohonan->no_baru=$request->input('no_baru');
         $permohonan->save();
-
-        $post=new Status_permohonan;
-        $post->permohonan_baru_id=$permohonan->id;
-        $post->tarikh=$request->input('tarikh');
-        $post->no_fail=$request->input('no_fail');
-        $post->catatan=$request->input('catatan');
-        $post->status=$request->input('status_id');
         
-        $post->save(); 
-        return redirect('/home')->with('success',"Permohonan telah berjaya");
-
+        
+        $post=new Status_permohonan;
+        $post_id = $request->input('permohonan_id');
+        $post = Status_permohonan::where('permohonan_baru_id', $post_id)->update(['no_fail'=>$request->input('no_fail')]);
+      
+        
+        return redirect('/home')->with('success',"Data telah berjaya dikemaskini");
     }
 
     /**
@@ -72,20 +69,7 @@ class PermohonanController extends Controller
      */
     public function show($id)
     {
-        
-      // $permohonan=DB::table('status_permohonan')->find($id)     
-      // ->join('status', 'status.id', '=', 'status_permohonan.status')
-      // ->join('permohonan_baru', 'permohonan_baru.id', '=', 'status_permohonan.permohonan_baru_id')
-      // ->where('status_permohonan.permohonan_baru_id', '=', $id )
-      // ->select('status_permohonan.*','status.status_nama','permohonan_baru.no_fail')
-      // ->get();
-         $permohonan= Status_permohonan::select('id','nama_staff','catatan','status','tarikh')
-         ->join('status', 'status.id', '=', 'status_permohonan.status')
-         ->join('permohonan_baru', 'permohonan_baru.id', '=', 'status_permohonan.permohonan_baru_id')
-         ->select('status_permohonan.*','status.status_nama','permohonan_baru.no_fail')
-         ->where('status_permohonan.permohonan_baru_id', '=', $id )
-         ->get();
-         return view('baru.show',compact('permohonan'));
+        //
     }
 
     /**
@@ -97,12 +81,9 @@ class PermohonanController extends Controller
     public function edit($id)
     {
         $permohonan= Permohonan::find($id);
-        $status_name = DB::table('status')
-        ->select('id','status_nama')  
-        ->get();
+       
    
-        return view ('baru.edit')->with('permohonan',$permohonan,$status_name);
-        
+        return view ('permohonanedit.edit')->with('permohonan',$permohonan);
     }
 
     /**
@@ -123,8 +104,21 @@ class PermohonanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Request $request, $id)
+    { 
+        $post= Status_permohonan::select('id','nama_staff','catatan','status','tarikh')
+         ->where('permohonan_baru_id', '=', $id );
+         $post->delete();
+        //$permohonan = Permohonan::find($id);
+        Permohonan::where('id', $id)->delete();
+        //$permohonan->delete();
+        $permohonan=new Transaksi;
+        $permohonan->no_fail=$request->input('no_fail');
+        $permohonan->nama_staff=$request->input('nama_staff');
+        $permohonan->status=$request->input('status');
+        $permohonan->tarikh=$request->input('tarikh');
+        $permohonan->save();
+        return redirect('/home')->with('success',"Data telah berjaya dipadam");
+    
     }
 }

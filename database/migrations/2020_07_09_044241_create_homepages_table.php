@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMukimTable extends Migration
+class CreateHomepagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateMukimTable extends Migration
      */
     public function up()
     {
-        Schema::create('mukim', function (Blueprint $table) {
+        Schema::create('homepages', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_mukim')->nullable();
-            $table->bigInteger('daerah_id')->unsigned();
-            $table->foreign('daerah_id')->references('id')->on('daerah');
+            $table->string('gambar1')->nullable();
+            $table->string('gambar2')->nullable();
+            $table->string('gambar3')->nullable();
+            $table->string('gambar4')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateMukimTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mukim');
+        Schema::dropIfExists('homepages');
     }
 }

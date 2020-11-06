@@ -28,40 +28,58 @@ label.required:after {
         @csrf    
         <div class="form-group">
             {{Form::label('nama', 'Nama')}}
-            {{Form::text('nama', $permohonan->nama, ['class' => 'form-control', 'placeholder' => 'nama','disabled'])}}
+            {{Form::text('nama', $permohonan->nama, ['class' => 'form-control', 'placeholder' => 'nama','disabled', 'style'=>'border:solid gray 1px'])}}
         </div>
                   <div class="form-group">
-            {{Form::label('no_ic', 'No. Fail')}}
-            {{Form::text('no_ic', $permohonan->no_fail, ['class' => 'form-control', 'placeholder' => 'no ic','disabled'])}}
+            {{Form::label('no_fail', 'No. Fail')}}
+            {{Form::text('no_fail', $permohonan->no_fail, ['class' => 'form-control', 'placeholder' => 'no ic','disabled', 'style'=>'border:solid gray 1px'])}}
         </div>
         <div class="form-group">
-           {{Form::label('tarikh', 'Tarikh ', [ 'class' => 'required' ])}}
-            {{Form::date('tarikh', '', ['class' => 'form-control', 'placeholder' => 'Tarikh','required'])}}
-        </div>  
+            {{Form::label('tarikh', '*Tarikh')}}
+            {{Form::date('tarikh',  old('tarikh', now()->format('Y-m-d')), ['class' => 'form-control', 'placeholder' => 'Tarikh','required', 'style'=>'border:solid gray 1px'])}}
+            
+        </div>
+        <input type="hidden" id="no_fail" name="no_fail" value="{{$permohonan->no_fail}}">
         <input type="hidden" id="permohonan_id" name="permohonan_id" value="{{$permohonan->id}}">
         <input type="hidden" id="nama_staff" name="nama_staff" value="{{ Auth::user()->name }}">
                   <div class="form-group">
                   {{Form::label('status', 'Status ', [ 'class' => 'required' ])}}
-        <select name="status" class="custom-select mb-3" >
+        <select name="status"  class="form-control" style="border: 1px solid black"required>
     <option selected ><?php if( $permohonan->status_id == 1 ){
-                                     echo "Baru";
+                                     echo "Permohonan Baru";
                         }else if( $permohonan->status_id == 2 ){
-                                     echo "Tindakan JUPEM";
+                                     echo "Maklumat tidak lengkap";
                         }else if( $permohonan->status_id == 3 ){
-                                        echo "Semakan Keluasan Tanah (KPPT)";
+                                        echo "Permohonan Ukur(PU) - Tindakan JUPEM";
                         }else if( $permohonan->status_id == 4 ){
-                                        echo "Mohon Kelulusan ke Majlis Mesyuarat Kerajaan Negeri/Pentadbir Tanah";
+                                        echo "Semakan Perbezaan Keluasan Tanah ";
+                        }else if( $permohonan->status_id == 5 ){
+                                        echo "Proses Kelulusan Majlis MMKN";
+                        }else if( $permohonan->status_id == 6 ){
+                                        echo "Pendaftaran Hakmilik Baru (Hakmilik Pejabat Tanah)";
+                        }else if( $permohonan->status_id == 7 ){
+                                        echo "Pendaftaran Hakmilik Baru (Hakmilik PTGS)";
+                        }else if( $permohonan->status_id == 8 ){
+                                        echo "Sedia untuk diambil";
                         }else{
-                                     echo "Proses Cetakan Hakmilik Akhir(Selesai)";
+                                     echo "Terdapat masalah pada permohonan (sila hubungi Unit Teknikal & Penguatkuasa)";
                         }?></option>
-    <option value="2">Tindakan JUPEM </option>
-    <option value="3">Semakan Keluasan Tanah (KPPT)</option>
-    <option value="4">Mohon Kelulusan ke Majlis Mesyuarat Kerajaan Negeri/Pentadbir tanah</option>
-    <option value="5">Proses Cetakan Hakmilik Akhir(Selesai)</option>
+    <option value="2">Maklumat tidak lengkap</option>
+    <option value="3">Permohonan Ukur(PU) - Tindakan JUPEM</option>
+    <option value="4">Semakan Perbezaan Keluasan Tanah</option>
+    <option value="5">Proses Kelulusan Majlis MMKN</option>
+    <option value="6">Pendaftaran Hakmilik Baru (Hakmilik Pejabat Tanah)</option>
+    <option value="7">Pendaftaran Hakmilik Baru (Hakmilik PTGS)</option>
+    <option value="8">Sedia untuk diambil</option>
+    <option value="9">Terdapat masalah pada permohonan (sila hubungi Unit Teknikal & Penguatkuasa)</option>
   </select></div>
   <div class="form-group">
+            {{Form::label('no_baru', 'Hakmilik No. Baru')}}
+            {{Form::text('no_baru',$permohonan->no_baru, ['class' => 'form-control', 'placeholder' => 'no baru', 'style'=>'border:solid gray 1px'])}}
+        </div>
+  <div class="form-group">
             {{Form::label('catatan', 'Catatan')}}
-            {{Form::textarea('catatan','', ['class' => 'form-control', 'placeholder' => 'catatan'])}}
+            {{Form::textarea('catatan','', ['class' => 'form-control', 'placeholder' => 'catatan', 'style'=>'border:solid gray 1px'])}}
         </div>
                 </div>
                 <!-- /.card-body -->

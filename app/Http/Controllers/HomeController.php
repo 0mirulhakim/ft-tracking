@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Mukim;
+use DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,8 +23,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $mukims= Mukim::select('id','nama')->get();
-        return view('home',compact('mukims'));
+        $data = DB::table('permohonan_baru')->orderBy('created_at','desc') //->orderBy('tarikh','desc') 
+        ->whereYear('tarikh',date('Y'))
+        ->join('status', 'status.id', '=', 'permohonan_baru.status_id')
+        ->join('mukim', 'mukim.id', '=', 'permohonan_baru.mukim_id')
+        ->select('status.status_nama','permohonan_baru.*','mukim.nama_mukim')    
+        ->get();
+        return view('home', compact('data'));
         
     }
 }

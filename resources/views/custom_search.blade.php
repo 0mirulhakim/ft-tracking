@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
    
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Admin Teknikal</title>
+    <title>Admin FT-Tracking</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -17,7 +17,11 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{asset('tim/assets/css/demo.css')}}" rel="stylesheet" />
 </head>
-
+<style>
+.red {
+  color: red;
+}
+</style>
 <body>
     <div class="wrapper">
         <div class="sidebar" data-image="{{asset('tim/assets/img/sidebar-5.jpg')}}">
@@ -30,7 +34,9 @@
                 <div class="logo">
                     <img src="{{ asset('tim/assets/img/jataselangor.png') }}" alt="selangor" class="brand-image"
                     style="height: 60px; width: 50px;">
-                     <span class="brand-text font-weight-bold">PDT Klang</span>
+                    <a  href="{{ url('/home') }}" role="button" data-toggle="" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <span class="brand-text font-weight-bold"style="color:black">PDT Klang</span> <span class="caret"></span>
+                                </a> 
                 </div>
                
                 <ul class="nav">
@@ -40,45 +46,25 @@
                             <p>Permohonan </p>
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" >
-                            <i class="nc-icon nc-icon nc-bell-55"></i>
-                            <p>Status </p>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{route('baru.index')}}">
-                            <i class="nc-icon nc-circle"></i>
-                            <p>Baru</p>
-                        </a>
-                    </li>
                     
-              
-              <li>
-                <a href="{{route('jupem.index')}}" class="nav-link">
-                  <i class="nc-icon nc-circle"></i>
-                  <p>JUPEM</p>
-                </a>
-              </li>
-              <li>
-                <a href="{{route('kppt.index')}}" class="nav-link">
-                  <i class="nc-icon nc-circle"></i>
-                  <p>KPPT</p>
-                </a>
-              </li>
-              <li>
-                <a href="{{route('majlis.index')}}" class="nav-link">
-                  <i class="nc-icon nc-circle"></i>
-                  <p>Kerajaan Negeri</p>
-                </a>
-              </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url('sejarah') }}">
+                            <i class="nc-icon nc-icon nc-notes"></i>
+                            <p>Sejarah Kemaskini </p>
+                        </a>
+                    </li>
               <li class="nav-item active">
                         <a class="nav-link" href="{{ url('customsearch') }}">
                             <i class="nc-icon nc-icon nc-notes"></i>
                             <p>Laporan </p>
                         </a>
                     </li>
-          
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url('info') }}">
+                            <i class="nc-icon nc-icon nc-notes"></i>
+                            <p>Kemaskini Info</p>
+                        </a>
+                    </li>
                    
                 </ul>
             </div>
@@ -87,15 +73,15 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
+                    <a class="navbar-brand" href="{{ url('/home') }}">FT-Tracking</a>
                    
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        <ul class="nav navbar-nav mr-auto">
-                            
+                        <ul class="nav navbar-nav navbar-right">
+                        
                         
                             <li class="nav-item">
-                                
-                                <a style="float:right;" class="nav-link" href="{{ route('logout') }}"
+                            <a class="navbar-brand" href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
+                                <a style="float:right;" class="navbar-brand" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -126,9 +112,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
  </head>
  <body>
-  <div class="container">    
+  <div class="">    
      <br />
-     <h3 align="center">Laporan</h3>
+     <h3 align="center">Laporan Final Title</h3>
      <br />
             <br />
             <div class="row">
@@ -140,6 +126,10 @@
                             <option value="{{ date('Y') }}">{{ date('Y') }}</option>
                             <option value="{{ date('Y')-1 }}">{{ date('Y')-1 }}</option>
                             <option value="{{ date('Y')-2 }}">{{ date('Y')-2 }}</option>
+                            <option value="{{ date('Y')-3 }}">{{ date('Y')-3 }}</option>
+                            <option value="{{ date('Y')-4 }}">{{ date('Y')-4 }}</option>
+                            <option value="{{ date('Y')-5 }}">{{ date('Y')-5 }}</option>
+                            <option value="{{ date('Y')-6 }}">{{ date('Y')-6 }}</option>
                         </select>
                     </div>
                     
@@ -157,12 +147,15 @@
     <table id="customer_data" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>No. Fail</th>
-                            <th>Nama</th>
-                            <th>No Rujukan</th>
-                            <th>Status</th>
-                            <th>No.Lot</th>
-                            <th>Tarikh</th>
+            <th>No. Fail</th>
+            <th>No.Rujukan</th>
+            <th>Nama Pemohon</th>
+            <th>No. PA</th>
+            <th>No. Lot/Mukim</th>
+            <th>Hakmilik No.Baru</th>
+            <th>Status</th>
+            <th>Tarikh</th>
+            
                         </tr>
                     </thead>
                 </table>
@@ -193,21 +186,35 @@ $(document).ready(function(){
                     name:'no_fail'
                 },
                 {
-                    data:'nama',
-                    name:'nama'
-                },
-                {
                     data:'no_rujukan',
                     name:'no_rujukan'
+                },
+                {
+                    data:'nama',
+                    name:'nama'
+                    
+                },
+                {
+                    data:'no_pa',
+                    name:'no_pa'
+                    
+                },
+                {   data: "no_lot",
+        render: function ( data, type, row ) {
+            return row.no_lot + '<br> ' + row.nama_mukim ;
+        }
+    },
+                {
+                    data:'no_baru',
+                    name:'no_baru',
+                    "className": "red"
+                    
                 },
                 {
                     data:'status_nama',
                     name:'status_nama'
                 },
-                {
-                    data:'no_lot',
-                    name:'no_lot'
-                },
+               
                 {
                     data:'tarikh',
                     name:'tarikh'
@@ -238,6 +245,20 @@ $(document).ready(function(){
 
 });
 </script>
+<script>
+$(document).ready(function(){
+ $('.delete_form').on('submit', function(){
+  if(confirm("Are you sure you want to delete it?"))
+  {
+   return true;
+  }
+  else
+  {
+   return false;
+  }
+ });
+});
+</script>
         </main>
                  
                     <div class="section">
@@ -261,60 +282,7 @@ $(document).ready(function(){
         </div>
         
     </div>
-   <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-        <a href="#" data-toggle="dropdown">
-            <i class="fa fa-cog fa-2x"> </i>
-        </a>
-
-        <ul class="dropdown-menu">
-			<li class="header-title"> Sidebar Style</li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger">
-                    <p>Background Image</p>
-                    <label class="switch">
-                        <input type="checkbox" data-toggle="switch" checked="" data-on-color="primary" data-off-color="primary"><span class="toggle"></span>
-                    </label>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger background-color">
-                    <p>Filters</p>
-                    <div class="pull-right">
-                        <span class="badge filter badge-black" data-color="black"></span>
-                        <span class="badge filter badge-azure" data-color="azure"></span>
-                        <span class="badge filter badge-green" data-color="green"></span>
-                        <span class="badge filter badge-orange" data-color="orange"></span>
-                        <span class="badge filter badge-red" data-color="red"></span>
-                        <span class="badge filter badge-purple active" data-color="purple"></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-            <li class="header-title">Sidebar Images</li>
-
-            <li class="active">
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-1.jpg')}}" alt="" />
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-3.jpg')}}" alt="" />
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-4.jpg')}}" alt="" />
-                </a>
-            </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="{{asset('tim/assets/img/sidebar-5.jpg')}}" alt="" />
-                </a>
-            </li>
-
+   
             
 
            

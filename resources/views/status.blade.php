@@ -1,6 +1,29 @@
+@extends('layouts.app')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
+<style>
+h1 {
+  text-shadow: 4px 4px 4px #000000;
+  
+}
+em{
+  text-shadow: 4px 4px 4px #000000;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
 
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
 <head>
 
   <meta charset="utf-8">
@@ -26,46 +49,33 @@
 <body id="page-top">
 
   <!-- Navigation -->
-  <a class="menu-toggle rounded" href="#">
-    <i class="fas fa-bars"></i>
-  </a>
-  <nav id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a class="js-scroll-trigger" href="#page-top">Semak Fail</a>
-      </li>
-      <li class="sidebar-nav-item">
-        <a class="js-scroll-trigger" href="#page-top">Home</a>
-      </li>
-      
-      <li class="sidebar-nav-item">
-        <a class="js-scroll-trigger" href="#contact">Contact</a>
-      </li>
-    </ul>
-  </nav>
+  
 
   <!-- Header -->
   <header class="masthead d-flex">
     <div class="container text-center my-auto">
-      <h1 class="mb-1">Semakan Fail</h1>
+      <h1 class="mb-1" style="color:white">Semakan Fail</h1>
       <h5 class="mb-5">
-        <em>Sila masukkan no.fail anda</em>
+        <em style="color:white">Sila masukkan no.fail anda</em>
       </h5>
      <!-- Search form -->
      <form action="{{URL::to('/search')}}" method="POST" role="search">
     {{ csrf_field() }}
+    
 <div class="active-cyan-3 active-cyan-4 mb-4">
   <input class="form-control" type="text" name="q" placeholder="masukkan no. fail" aria-label="Search">
 </div>
+
       <button class="btn btn-primary btn-xl js-scroll-trigger" type="submit">Semak</button>
       
       </form><br>
       @if(isset($details))
+      
+        
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Bil</th>
-                <th>No. Fail</th>
                 <th>Tarikh</th>
                 <th>Status</th>
                 <th>Catatan</th>
@@ -77,11 +87,11 @@
         @foreach($details as $user=> $user1)
               <tr>
                 
-                    <td>{{ $user +1 }}.</td>    
-                    <td>{{$user1->no_fail}}</td>             
+                    <td>{{ $user +1 }}.</td>  
                     <td>{{$user1->tarikh}}</td>
                 <td>{{$user1->status_nama}}</td>
-                <td>{{$user1->catatan}}</td>             
+                <td>{!! nl2br(e($user1->catatan)) !!}</td> 
+                             
                 
                 </tr> 
             @endforeach
@@ -95,8 +105,9 @@
     
    
   </header>
-
-  
+  <section style="background-color:#242726"><br><br><br><br><br><br><br><br>
+ 
+  </section>
 
  <br><br>
   <!-- Contact Section -->
@@ -194,3 +205,4 @@
 </body>
 
 </html>
+@endsection

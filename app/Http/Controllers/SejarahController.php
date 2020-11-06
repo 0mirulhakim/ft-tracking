@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 use DB;
-use App\Status;
-use App\Status_permohonan;
-use App\Permohonan;
 use Illuminate\Http\Request;
-
-class KpptController extends Controller
+use Auth;
+class SejarahController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
+        $data = DB::table('permohonan_baru')
         
+       ->join('status_permohonan', 'status_permohonan.permohonan_baru_id', '=', 'permohonan_baru.id')->whereYear('status_permohonan.tarikh',date('Y')) ->whereNotNull('nama_staff')//->where('nama_staff', '=', Auth::user()->name )
+       ->join('status', 'status.id', '=', 'status_permohonan.status')
+       ->select('status.status_nama','status_permohonan.permohonan_baru_id','permohonan_baru.nama','status_permohonan.id', 'status_permohonan.catatan', 'status_permohonan.nama_staff', 'status_permohonan.tarikh','status_permohonan.no_fail')
+       ->get();
+        return view('sejarah', compact('data'));
     }
 
     /**
@@ -37,25 +40,7 @@ class KpptController extends Controller
      */
     public function store(Request $request)
     {
-        $post=new Status_permohonan;
-        $post->permohonan_baru_id=$request->input('permohonan_id');
-        $post->no_fail=$request->input('no_fail');
-        $post->tarikh=$request->input('tarikh');
-        $post->nama_staff=$request->input('nama_staff');
-        $post->catatan=$request->input('catatan');
-        $post->status=$request->input('status');
-        
-        $post->save(); 
-
-        //update table
-        $permohonan=new Permohonan;
-        $permohonan=Permohonan::find($request->permohonan_id);
-        $permohonan->status_id=$request->status;
-        $permohonan->catatan=$request->catatan;
-        $permohonan->tarikh=$request->tarikh;
-        $permohonan->no_baru=$request->no_baru;
-        $permohonan->save();
-        return redirect('home')->with('success','Data telah dikemaskini.');
+        //
     }
 
     /**
@@ -77,12 +62,7 @@ class KpptController extends Controller
      */
     public function edit($id)
     {
-        $permohonan= Permohonan::find($id);
-        $status_name = DB::table('status')
-        ->select('id','status_nama')  
-        ->get();
-   
-        return view ('permohonan.edit')->with('permohonan',$permohonan,$status_name);
+        //
     }
 
     /**

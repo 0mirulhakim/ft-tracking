@@ -48,7 +48,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
 
 .carousel-item {
-  height: 70vh;
+  height: 50vh;
   min-height: 350px;
   background: no-repeat center center scroll;
   -webkit-background-size: cover;
@@ -60,7 +60,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
 <body id="page-top">
 
-  
+
  
   <!-- Header -->
   <header class="masthead d-flex">
@@ -68,6 +68,19 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     <h1 class="mb-1" style="color:white">Semakan Fail</h1>
       <h5 class="mb-5">
         <em style="color:white">Sila masukkan no.fail anda</em>
+        @if(session('success'))
+    <div class="alert alert-success">
+        {{session('success')}}
+    </div>
+@endif
+
+  @if(count($errors) > 0)
+    @foreach($errors->all() as $error)
+        <div class="alert alert-danger">
+            {{$error}}
+        </div>
+    @endforeach
+@endif
       </h5>
      <!-- Search form -->
      <form action="{{URL::to('/search')}}" method="POST" role="search">
@@ -135,69 +148,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
  
   
-  @foreach($homes as $home)
-  <section style="background-color:#242726">
- 
-  <div class="container  h-100 align-items-center">
-      <div class="mx-auto text-center">
-      <div class="centered1">
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-      <!-- Slide One - Set the background image for this slide in the line below -->
-      <div class="carousel-item active">
-      <img src="{{asset('storage/gambar1/' . $home->gambar1)}} " alt="info1" width="100%" height="100%">
-        <div class="carousel-caption d-none d-md-block">
-          
-        </div>
-      </div>
-     
-    
-   
-      </div>
-   
-  </div>
- 
   
-  
-  </section>
-  <section style="background-color:#242726">
-  <br>
-  </section>
-  <section style="background-color:#242726">
- 
-  <div class="container  h-100 align-items-center">
-      <div class="mx-auto text-center">
-      <div class="centered1">
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      
-    </ol>
-    <div class="carousel-inner" role="listbox">
-      <!-- Slide One - Set the background image for this slide in the line below -->
-      <div class="carousel-item active">
-      <img src="{{asset('storage/gambar2/' . $home->gambar2)}} " alt="info1" width="100%" height="100%">
-        <div class="carousel-caption d-none d-md-block">
-          
-        </div>
-      
-      </div>
-    
-   
-      </div>
-  
-  </div>
- 
-  
-  
-  </section>
-      @endforeach
-  <section style="background-color:#242726"><br><br><br>
- 
- </section>
   <!-- Contact Section -->
   <br>
   <section id="contact" class="contact-section bg-black">
@@ -255,7 +206,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
   <!-- Footer -->
   <footer class="footer text-center">
     <div class="container">
-     <!-- <ul class="list-inline mb-5">
+      <ul class="list-inline mb-5">
         <li class="list-inline-item">
           <a class="social-link rounded-circle text-white mr-3" href="#">
             <i class="icon-social-facebook"></i>
@@ -271,7 +222,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
             <i class="icon-social-github"></i>
           </a>
         </li>
-      </ul>-->
+      </ul>
       <p class="text-muted small mb-0"> Copyright &copy; Muhammad Amirul Hakim Bin Azman Pejabat Daerah/Tanah Klang {{ date('Y') }}</p>
      
     </div>

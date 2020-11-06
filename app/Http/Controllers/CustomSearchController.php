@@ -14,17 +14,20 @@ class CustomSearchController extends Controller
       if(!empty($request->filter_tahun))
       {
         $data = DB::table('permohonan_baru')
-        ->join('status', 'status.id', '=', 'permohonan_baru.id')
-        ->select('status.status_nama','permohonan_baru.*')         
+        ->join('status', 'status.id', '=', 'permohonan_baru.status_id')
+        ->join('mukim', 'mukim.id', '=', 'permohonan_baru.mukim_id')
+        ->select('status.status_nama','permohonan_baru.*','mukim.nama_mukim')         
          ->whereYear('permohonan_baru.tarikh', $request->filter_tahun)
          ->get();
       }
       else
       {
         $data = DB::table('permohonan_baru')
-        ->join('status', 'status.id', '=', 'permohonan_baru.id')
-        ->select('status.status_nama','permohonan_baru.*')
+        ->join('status', 'status.id', '=', 'permohonan_baru.status_id')
+        ->join('mukim', 'mukim.id', '=', 'permohonan_baru.mukim_id')
+        ->select('status.status_nama','permohonan_baru.*','mukim.nama_mukim')
         ->get();
+        
       }
       return datatables()->of($data)->make(true);
       
